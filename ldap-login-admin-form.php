@@ -33,6 +33,9 @@ class ldap_login_admin_form {
     if ($option=='ldap_login_generic_search')
       return 'uid=USERNAME,OU=people,DC=company,DC=local/uid=USERNAME,OU=people3,DC=company,DC=local';
 
+    if ($option=='ldap_authentication_attribute')
+      return 'sAMAccountName'; // The legacy logon name in a Windows AD environment
+
     if ($option=='ldap_login_allow_normal')
       return true;
     if ($option=='ldap_login_allow_registration')
@@ -58,6 +61,8 @@ class ldap_login_admin_form {
       qa_opt('ldap_login_ad_basedn', qa_post_text('ldap_login_ad_basedn_field'));
       qa_opt('ldap_login_generic_search', qa_post_text('ldap_login_generic_search_field'));
 
+      qa_opt('ldap_authentication_attribute', qa_post_text('ldap_authentication_attribute_field'));
+
       qa_opt('ldap_login_allow_normal', (bool) qa_post_text('ldap_login_allow_normal_field'));
       qa_opt('ldap_login_allow_registration', (bool) qa_post_text('ldap_login_allow_registration_field'));
 
@@ -77,7 +82,7 @@ class ldap_login_admin_form {
 
       'fields' => array(
         array(
-          'label' => 'Hostname for LDAP Server (ldap://x.y.z for non-SSL, ldaps://x.y.x for SSL)',
+          'label' => 'Hostname for LDAP Server (ldap://x.y.z for non-SSL, ldaps://x.y.z for SSL)',
           'type' => 'text',
           'value' => qa_opt('ldap_login_hostname'),
           'tags' => 'name="ldap_login_hostname_field"',
@@ -135,7 +140,7 @@ class ldap_login_admin_form {
 
         array(
           'id' => 'ldap_login_ad_pwd_display',
-          'label' => 'Password for AD binging accout',
+          'label' => 'Password for AD binding account',
           'type' => 'text',
           'value' => qa_opt('ldap_login_ad_pwd'),
           'tags' => 'name="ldap_login_ad_pwd_field"',
@@ -155,6 +160,14 @@ class ldap_login_admin_form {
           'type' => 'text',
           'value' => qa_opt('ldap_login_generic_search'),
           'tags' => 'name="ldap_login_generic_search_field"',
+        ),
+
+        array(
+          'id' => 'ldap_authentication_attribute_display',
+          'label' => 'Generic LDAP search authenticate attribute (e.g. sAMAccountName, sn, mail, givenName etc.)',
+          'type' => 'text',
+          'value' => qa_opt('ldap_authentication_attribute'),
+          'tags' => 'name="ldap_authentication_attribute_field"',
         ),
 
 
